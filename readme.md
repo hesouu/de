@@ -377,6 +377,32 @@ S3
 | **웹 파일**      | `.html`, `.css`, `.js`                    | 정적 웹사이트                 |
 | **바이너리**      | `.bin`, `.dat` 등                          | 기타 애플리케이션 데이터           |
 
+- 저장 형태 (메달리온 아킥텍처 기준) + 파티션 적용
+```
+S3
+│
+버킷 (계정별, 프로젝트별, 팀별,..기준은 설정)
+│
+├── bronze/ (원시 데이터 형태)
+│   ├── api_logs/
+│   │   └── *.json.gz
+│   ├── clickstream/
+│   │   └── *.json
+│   └── orders/
+│       └── *.csv
+│
+├── silver/ (클리닝, 전처리,.. 1차 가공된 데이터, 열기준)
+│   ├── orders/
+│   │   └── *.parquet
+│   └── customers/
+│       └── *.parquet
+│
+└── gold/ (최종 데이터 형태, 데이터 파이프라인의 종착점에 필요한 데이터 형태)
+    ├── daily_sales/
+    │   └── *.parquet
+    └── customer_summary/
+        └── *.parquet
+```
 
 
 
