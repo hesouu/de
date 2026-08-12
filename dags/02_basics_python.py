@@ -69,7 +69,7 @@ with DAG(
   start_date  = datetime(2026,6,29),
   catchup     = False,
   tags        = ['python', 'xcom']
-) as dag: 
+)as dag: 
   # `ET`L
   # 3. Operator 정의 
   extract_task   = PythonOperator(
