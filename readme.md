@@ -324,7 +324,7 @@ S3
           ▼           ▼            ▼
   [v]OpenSearch(ELK, EFK)  S3 Silver   Alert/Event
 ```
-
+ 
 # 중간 정리 : 구조 유형(텍스트)
 - Application log
      - 앱, 웹, IOT(센서), 팩토리(센서), 게임, 금융
