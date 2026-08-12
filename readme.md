@@ -516,7 +516,7 @@ Load                Transform
   │   Raw Data    │
   └───────┬───────┘
           │
-      Processing -> 데이터 정책, 전처리, 파생변수 등등
+      Processing -> 데이터 정제, 전처리, 파생변수 등등 
           │
           ▼
   ┌───────────────┐
@@ -529,6 +529,27 @@ Load                Transform
           ▼
   ┌───────────────┐
   │     GOLD      │
-  │ Analytics     │-> 최종 데이터 형태
+  │ Analytics     │ -> 최종 데이터 형태
   └───────────────┘
+```
+
+# DATA SERVING
+- 최종 데이터(골드 레이어)를 어떻게 제공/사용
+```
+            DATA SERVING
+
+                S3 GOLD
+                  │
+  ┌───────────────┼────────────────┐
+  ▼               ▼                ▼
+Athena        Redshift        OpenSearch
+  │               │                │
+  ▼               ▼                ▼
+SQL          Data Mart          Search
+  │               │                │
+  └───────────────┼────────────────┘
+                  ▼
+              QuickSight
+              Dashboard
+              Application
 ```
