@@ -403,7 +403,7 @@ S3
     └── customer_summary/
         └── *.parquet
 ```
-
+ 
 
 
 
