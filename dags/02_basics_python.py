@@ -40,20 +40,21 @@ def _extract_cb(**kwargs):
 
 def _transform_cb(**kwargs):
   '''
-  - kwargs을 통해서 다른 task가 XCom으로 전달한 데이터(순서상 건녀 뛰어도 관계 없음)
-    - airflow context 정보 획득 -> "t1" => 전달된 데이터 접근(획득)
+  - kwargs을 통해서 다른 task가 XCOM으로 전달한 데이터(순서상 건더 뛰어도 관계 없음)
+    - airflow conext 정보 획득 => "ti" => 전달된 데이터 접근(획득)
   '''
   # 1. ti 객체 획득
   ti = kwargs["ti"]
 
-  # 2. Xcome을 통해서 데이터 획득
-  #     "extract_task" 라는 id를 가진 task의 게시물을 가져온다
+  # 2. XCOM을 통해서 데이터 획득
+  #    "extract_task" 라는  id를 가진 Task의 게시물을 가져온다
   data = ti.xcom_pull(task_ids="extract_task")
-  pass
 
   # 3. 데이터 확인
   logging.info("=== transform ===")
   logging.info(f"data = {data}")
+  pass
+
 
 # 2. DAG 정의
 with DAG(
@@ -82,8 +83,3 @@ with DAG(
 
   # 4. 의존성 정의
   extract_task >> transform_task
-
-
-
-
-
