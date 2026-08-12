@@ -25,15 +25,35 @@ def _extract_cb(**kwargs):
 
   logging.info("=== Extract 작업 ===")
   logging.info(f" ti = {ti}")
+  '''
+    ds = 2026-08-12         <- task 수행 시간
+    ds_nodash = 20260812    <- task 수행 시간 (- 제거됨)
+    run_id    = manual__2026-08-12T06:40:55.384119+00:00
+  '''
   logging.info(f" ds = {ds}")
   logging.info(f" ds_nodash = {ds_nodash}")
   logging.info(f" run_id    = {run_id}")
 
+  # 정보 전달 -> XCOM 게시판에 본 task가 글을 작성하는것
+  # XCOM을 통해서 특정 데이터를 push 하는 행위 -> 반환 행위 (return)
+  return f"ds = {ds} ds_nodash = {ds_nodash} run_id    = {run_id}"
 
-  pass
 def _transform_cb(**kwargs):
+  '''
+  - kwargs을 통해서 다른 task가 XCom으로 전달한 데이터(순서상 건녀 뛰어도 관계 없음)
+    - airflow context 정보 획득 -> "t1" => 전달된 데이터 접근(획득)
+  '''
+  # 1. ti 객체 획득
+  ti = kwargs["ti"]
+
+  # 2. Xcome을 통해서 데이터 획득
+  #     "extract_task" 라는 id를 가진 task의 게시물을 가져온다
+  data = ti.xcom_pull(task_ids="extract_task")
   pass
 
+  # 3. 데이터 확인
+  logging.info("=== transform ===")
+  logging.info(f"data = {data}")
 
 # 2. DAG 정의
 with DAG(
@@ -62,3 +82,8 @@ with DAG(
 
   # 4. 의존성 정의
   extract_task >> transform_task
+
+
+
+
+
