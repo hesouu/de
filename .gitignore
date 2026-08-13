@@ -213,3 +213,5 @@ logs/
 # logs/**
 #
 
+dags/02_test_fix.py
+02_testcode.py
