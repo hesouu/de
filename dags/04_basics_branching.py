@@ -13,10 +13,6 @@ import pendulum
 # 2. 전역변수
 KST = pendulum.timezone("Asia/Seoul")
 
-# 4-1. 콜백함수
-def _print(**kwargs):
-  logging.info(f'ds 출력 { kwargs["ds"] }')
-  pass
 
 # 3. DAG
 with DAG( 
@@ -51,4 +47,4 @@ with DAG(
   )
 
   # 5. 의존성(수행순서)
-  t1 >> t2 >> t3 
+  t1 >> t2 >> t3
