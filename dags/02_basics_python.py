@@ -14,6 +14,7 @@ import logging # 레벨별 로그 출력 (에러, 경고, 정보, 디버깅,..)
 import pendulum
 KST = pendulum.timezone("Asia/Seoul")
 
+
 # 3-1. 콜백함수 정의 -> 실제 task 작업 상세 내용
 def _extract_cb(**kwargs):
   '''
@@ -49,6 +50,8 @@ def _extract_cb(**kwargs):
   # 정보 전달 -> XCOM 게시판에 본 task가 글을 작성하는것
   # XCOM을 통해서 특정 데이터를 push 하는 행위 -> 반환 행위 (return)
   return f"ds = {ds} ds_nodash = {ds_nodash} run_id    = {run_id}"
+
+
 
 def _transform_cb(**kwargs):
   '''
@@ -90,7 +93,9 @@ with DAG(
   # 3. Operator 정의 
   extract_task   = PythonOperator(
     task_id         = "extract_task",
-    python_callable = _extract_cb # 콜백함수(실제 처리하는 업무 정의한 함수, 내부(_)에서만 사용)
+    python_callable = _extract_cb # 콜백함수(실제 처리하는 업무 정의한 함수, 내부(_)에서만 사용) 모듈화 개념
+    # 테스크 -> 변수 = ~~오퍼레이터
+    # 콜백함수 -> 테스크가 해야할 작업 모듈
   )
   transform_task = PythonOperator(
     task_id         = "transform_task",
