@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS 리전"
   type        = string
-  default     = "us-west-1"
+  default     = "ap-northeast-2"
 }
 
 variable "project_name" {
@@ -20,5 +20,5 @@ variable "environment" {
 variable "s3_force_destroy" {
   description = "True면 버킷 내부 데이터와 버킷 삭제"
   type        = bool
-  default     = true
+  default     = True
 }
