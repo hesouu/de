@@ -215,3 +215,31 @@ logs/
 
 dags/02_test_fix.py
 02_testcode.py
+
+# Terraform execution outputs
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+
+# Secrets and local configuration
+*.pem
+.env
+# 임시로 유지
+# infra/terraform.tfvars
+
+# Temporary outputs
+rendered-*.yaml
+.runtime/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+
+devops_tf_k8s_ci
