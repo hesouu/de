@@ -29,6 +29,7 @@ resource "aws_s3_bucket" "airflow_data" {
   )
 }
 
+# -----------------------------------------------------------------------------------------------------------
 # s3 object Ownership (객체 소유권)
 resource "aws_s3_bucket_ownership_controls" "airflow_data" {
   bucket = local.airflow_bucket_name
@@ -39,5 +40,43 @@ resource "aws_s3_bucket_ownership_controls" "airflow_data" {
     # - 버킷소유자가 버킷 내부의 객체의 소유권을 가진다
     # - 접근 제어 IAM Paolicy / Bucket Policy 중심으로 관리한다 -> ALC 방식 x, 계정소유자(IAM) 권한으로 관리
     object_ownership = "BucketOwnerEnforced"
+  }
+}
+
+# -----------------------------------------------------------------------------------------------------------
+# s3 publioc access block
+# airflow( 외부 PC)-> iam access key (iam 인증)-> aws s3 bucket 접근,
+# s3는 private로 관리
+# -----------------------------------------------------------------------------------------------------------
+resource "aws_s3_bucket_public_access_block" "airflow_data" {
+    # 대상
+  bucket = local.airflow_bucket_name
+
+  # 설정
+  # 새로운 public acl 설정 차단
+  block_public_acls = true
+  # 기존 public acl 있더라도 무시
+  ignore_public_acls = true
+  # public 접근 허용되는 bucket policy 생성 차단
+  block_public_policy = true
+  # 버킷이 PUblic policy를 가지더라도 public 접근 제한
+  restrict_public_buckets = true
+}
+
+
+# -----------------------------------------------------------------------------------------------------------
+# s3 encryption
+# 두 개의 개별 암호화 계층으로 객체를 보호
+# s3에 저장되는 object를 자동 암호화하도록 설정
+# -----------------------------------------------------------------------------------------------------------
+resource "aws_s3_bucket_server_side_encryption_configuration" "airflow_data" {
+  bucket = local.airflow_bucket_name
+
+  rule {
+    apply_server_side_encryption_by_default {
+      # AES256 = SSE-S3
+      # S3가 관리하는 암호화 키를 이용하여 객체를 암호화 한다
+      sse_algorithm = "AES256"
+    }
   }
 }

@@ -20,5 +20,5 @@ variable "environment" {
 variable "s3_force_destroy" {
   description = "True면 버킷 내부 데이터와 버킷 삭제"
   type        = bool
-  default     = True
+  default     = true
 }
