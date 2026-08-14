@@ -21,7 +21,7 @@ import logging
 import pendulum
 
 # 2. 환경변수(전역변수) -> .env, airflow 환경변수
-BUCKET_NAME      = "de-ai-25-infra-s3-bk-827913617635"
+BUCKET_NAME      = "de-ai-09-infra-s3-bk-827913617635"
 UPLOAD_FILE_NAME = "costs.csv" # 각자 다를수 있음
 LOCAL_PATH       = f"/opt/airflow/dags/data/{UPLOAD_FILE_NAME}" # 컨테이너에서 업로드 경로
 
