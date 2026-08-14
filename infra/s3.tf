@@ -1,14 +1,14 @@
 # s3 구성에서만 사용
 locals {
-    # s3 버킷명
-    # 글로벌 기준 : 버킷 이름은 3~63자여야만 하며 글로벌 네임스페이스 내에서 고유해야 합니다.
-    #             버킷 이름은 문자나 숫자로 시작하고 끝나야 합니다.
-    #             유효한 문자는 a~z, 0~9, 마침표(.), 하이픈(-)입니다 -> 리소스별 '-'잘 사용
+  # s3 버킷명
+  # 글로벌 기준 : 버킷 이름은 3~63자여야만 하며 글로벌 네임스페이스 내에서 고유해야 합니다.
+  #             버킷 이름은 문자나 숫자로 시작하고 끝나야 합니다.
+  #             유효한 문자는 a~z, 0~9, 마침표(.), 하이픈(-)입니다 -> 리소스별 '-'잘 사용
 
-    # var.project_name : de-ai-09-infra
-    # data.aws_caller_identity.current.account_id : 827913617635
-    # 최종 버킷명 : de-ai-09-infra-s3-bk-827913617635
-    airflow_bucket_name = "${var.project_name}-s3-bk-${data.aws_caller_identity.current.account_id}"
+  # var.project_name : de-ai-09-infra
+  # data.aws_caller_identity.current.account_id : 827913617635
+  # 최종 버킷명 : de-ai-09-infra-s3-bk-827913617635
+  airflow_bucket_name = "${var.project_name}-s3-bk-${data.aws_caller_identity.current.account_id}"
 
 }
 
@@ -24,7 +24,7 @@ resource "aws_s3_bucket" "airflow_data" {
   tags = merge(
     local.common_tags,
     {
-        name = local.airflow_bucket_name
+      name = local.airflow_bucket_name
     }
   )
 }
@@ -32,7 +32,7 @@ resource "aws_s3_bucket" "airflow_data" {
 # -----------------------------------------------------------------------------------------------------------
 # s3 object Ownership (객체 소유권)
 resource "aws_s3_bucket_ownership_controls" "airflow_data" {
-  bucket = local.airflow_bucket_name
+  bucket = aws_s3_bucket.airflow_data.id
 
   rule {
     # BucketOwnerEnforced
@@ -49,8 +49,8 @@ resource "aws_s3_bucket_ownership_controls" "airflow_data" {
 # s3는 private로 관리
 # -----------------------------------------------------------------------------------------------------------
 resource "aws_s3_bucket_public_access_block" "airflow_data" {
-    # 대상
-  bucket = local.airflow_bucket_name
+  # 대상
+  bucket = aws_s3_bucket.airflow_data.id
 
   # 설정
   # 새로운 public acl 설정 차단
@@ -70,7 +70,7 @@ resource "aws_s3_bucket_public_access_block" "airflow_data" {
 # s3에 저장되는 object를 자동 암호화하도록 설정
 # -----------------------------------------------------------------------------------------------------------
 resource "aws_s3_bucket_server_side_encryption_configuration" "airflow_data" {
-  bucket = local.airflow_bucket_name
+  bucket = aws_s3_bucket.airflow_data.id
 
   rule {
     apply_server_side_encryption_by_default {
